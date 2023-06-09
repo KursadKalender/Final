@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+  mariadb:
+    image: docker.io/bitnami/drupal:latest
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      - DRUPAL_DATABASE_HOST=mariadb
+      - DRUPAL_DATABASE_PORT_NUMBER=3306
+      - DRUPAL_DATABASE_USER=bn_drupal
+      - DRUPAL_DATABASE_NAME=bitnami_drupal
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - 'drupal_data:/bitnami/drupal'
+    
+  db:
+    image:bitnami/mariadb
+    enviroment:
+      - MARIADB_DATABASE=drupal
+      - MARIADB_USER=drupal
+      - MARIADB_PASSWORD = password
+      - MARIADB_ROOT_PASSWORD = password
+    volumes:
+      - ./mariadb:/bitnami/mariadb
+   
+  webserver:
+    image:nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+   certbot:
+    image:certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
