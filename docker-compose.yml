@@ -19,9 +19,9 @@ services:
   db:
     image:bitnami/mariadb
     enviroment:
-      - MARIADB_DATABASE=drupal
-      - MARIADB_USER=drupal
-      - MARIADB_PASSWORD = password
+      - MARIADB_DATABASE=final
+      - MARIADB_USER=YAM428
+      - MARIADB_PASSWORD = 30119094
       - MARIADB_ROOT_PASSWORD = password
     volumes:
       - ./mariadb:/bitnami/mariadb
