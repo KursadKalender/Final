@@ -35,7 +35,8 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-
+    enviroment:
+      - NGINX_SERVER_NAME=kursadkalender.works
    certbot:
     image:certbot
     volumes:
